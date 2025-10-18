@@ -1,0 +1,93 @@
+# TASK 5: ROBUST INPUT HELPERS
+
+def read_nonempty(prompt):
+    """
+    Takes a non-empty string input with validation.
+    """
+    while True:
+        user_input = input(prompt).strip()
+        if user_input:
+            return user_input
+        else:
+            print("❌ Error: Input cannot be empty. Please try again.")
+
+
+def read_choice(prompt, valid_choices):
+    """
+    Takes a validated choice input from given options.
+    """
+    choices_lower = [choice.lower() for choice in valid_choices]
+
+    while True:
+        user_input = input(f"{prompt} ({'/'.join(valid_choices)}): ").strip().lower()
+        if user_input in choices_lower:
+            index = choices_lower.index(user_input)
+            return valid_choices[index]
+        else:
+            print(f"❌ Error: Please choose from: {', '.join(valid_choices)}")
+
+
+def read_float_range(prompt, min_val, max_val):
+    """
+    Takes a float input within the specified range.
+    """
+    while True:
+        try:
+            value = float(input(prompt))
+            if min_val <= value <= max_val:
+                return value
+            else:
+                print(f"❌ Error: Value must be between {min_val} and {max_val}")
+        except ValueError:
+            print("❌ Error: Please enter a valid number.")
+
+
+def input_helpers_demo():
+    """
+    Main demo for the Input Helpers system.
+    """
+    print("=" * 50)
+    print("TASK 5: ROBUST INPUT HELPERS")
+    print("=" * 50)
+    print("Please fill the form below:\n")
+
+    # Non-empty name input
+    name = read_nonempty("Your name: ")
+
+    # Activity choice input
+    activity = read_choice("Preferred activity", ["Read", "Walk", "Nap", "Music"])
+
+    # CGPA input with range validation
+    cgpa = read_float_range("Your CGPA (0.0 - 4.0): ", 0.0, 4.0)
+
+    # Display summary
+    print("\n" + "=" * 40)
+    print("📋 FORM SUBMISSION SUMMARY")
+    print("=" * 40)
+    print(f"👤 Name: {name}")
+    print(f"🎯 Preferred Activity: {activity}")
+    print(f"📊 CGPA: {cgpa}")
+    print("=" * 40)
+
+    # Personalized insights
+    print("\n💡 PERSONALIZED INSIGHTS:")
+    if cgpa >= 3.5:
+        print("  • Excellent academic performance!")
+    elif cgpa >= 3.0:
+        print("  • Good academic record!")
+    else:
+        print("  • Keep working on your studies!")
+
+    activity_tips = {
+        "Read": "  • Reading improves knowledge and focus.",
+        "Walk": "  • Walking is great for physical and mental health.",
+        "Nap": "  • Napping helps recharge your energy.",
+        "Music": "  • Music can boost mood and creativity."
+    }
+
+    print(activity_tips.get(activity, "  • Enjoy your chosen activity!"))
+
+
+# ✅ Run the demo
+if __name__ == "__main__":
+    input_helpers_demo()
