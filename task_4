@@ -1,0 +1,103 @@
+# TASK 4: FINITE STATE MACHINE - TRAFFIC LIGHT
+
+import time
+
+def run_traffic_light_simulation(cycles=2, use_real_delay=False):
+    """
+    Runs the Traffic Light FSM simulation for a given number of cycles.
+    """
+    # FSM definition - states and transitions
+    traffic_light_fsm = {
+        "RED": {
+            "next": "GREEN",
+            "duration": 5,  # seconds
+            "action": "🛑 STOP - Vehicles must stop"
+        },
+        "GREEN": {
+            "next": "YELLOW",
+            "duration": 4,  # seconds
+            "action": "🚗 GO - Vehicles can move"
+        },
+        "YELLOW": {
+            "next": "RED",
+            "duration": 2,  # seconds
+            "action": "⚠ SLOW DOWN - Prepare to stop"
+        }
+    }
+
+    current_state = "RED"
+    state_history = []
+
+    print("\nStarting Traffic Light Simulation...")
+    print(f"Cycles: {cycles}, Real Delay: {use_real_delay}")
+    print("-" * 50)
+
+    # Run simulation
+    for cycle in range(cycles):
+        print(f"\n🔁 CYCLE {cycle + 1}:")
+        for _ in range(len(traffic_light_fsm)):
+            state_info = traffic_light_fsm[current_state]
+
+            # Display current state info
+            print(f"State: {current_state} | {state_info['action']}")
+            print(f"Waiting {state_info['duration']} seconds...")
+
+            # Record state
+            state_history.append(current_state)
+
+            # Apply delay (real or demo)
+            time.sleep(state_info['duration'] if use_real_delay else 0.5)
+
+            # Move to next state
+            current_state = state_info["next"]
+
+    return state_history
+
+
+def traffic_light_demo():
+    """
+    Main demo for the Traffic Light FSM.
+    """
+    print("=" * 50)
+    print("TASK 4: FINITE STATE MACHINE - TRAFFIC LIGHT")
+    print("=" * 50)
+
+    simulation_count = 0
+
+    while True:
+        print(f"\n--- Simulation #{simulation_count + 1} ---")
+        print("Traffic Light Simulation (type 'exit' to stop)")
+
+        continue_choice = input("Continue? (yes/exit): ").strip().lower()
+        if continue_choice == 'exit':
+            print(f"\nSystem closed. Total simulations: {simulation_count}")
+            break
+
+        # Input for number of cycles
+        while True:
+            try:
+                cycles = int(input("Number of cycles (e.g., 2): "))
+                if cycles > 0:
+                    break
+                print("Please enter a positive number.")
+            except ValueError:
+                print("Please enter a valid number.")
+
+        # Ask for real-time delay option
+        delay_choice = input("Use real-time delays? (y/n): ").strip().lower()
+        use_real_delay = (delay_choice == 'y')
+
+        # Run simulation
+        history = run_traffic_light_simulation(cycles, use_real_delay)
+
+        # Display results
+        print("\n📈 SIMULATION COMPLETED!")
+        print(f"State sequence: {' → '.join(history)}")
+        print(f"Total states visited: {len(history)}")
+
+        simulation_count += 1
+
+
+# Run the demo
+if _name_ == "_main_":
+    traffic_light_demo()
