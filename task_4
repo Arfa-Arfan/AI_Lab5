@@ -98,6 +98,6 @@ def traffic_light_demo():
         simulation_count += 1
 
 
-# Run the demo
-if _name_ == "_main_":
+# ✅ Run the demo correctly
+if __name__ == "__main__":
     traffic_light_demo()
